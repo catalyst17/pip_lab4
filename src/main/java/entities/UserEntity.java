@@ -6,22 +6,19 @@ import java.util.List;
 @Entity
 @Table(name = "USERS")
 public class UserEntity {
+    @Id
+    @Column(name="login", nullable = false, length = 30)
     private String login;
+
+    @Column(name="password", nullable = false, length = 40)
     private int password;
 
-    @OneToMany(mappedBy="owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PointEntity> points;
 
     public UserEntity() {
     }
 
-    public UserEntity(String login, String password) {
-        this.login = login;
-        this.password = password.hashCode();
-    }
-
-    @Id
-    @Column(name = "login", nullable = false, length = 30)
     public String getLogin() {
         return login;
     }
@@ -30,8 +27,6 @@ public class UserEntity {
         this.login = login;
     }
 
-    @Basic
-    @Column(name = "password", nullable = false, length = 40)
     public int getPassword() {
         return password;
     }
@@ -46,6 +41,16 @@ public class UserEntity {
 
     public List<PointEntity> getPoints() {
         return points;
+    }
+
+    public void addComment(PointEntity point) {
+        points.add(point);
+        point.setOwner(this);
+    }
+
+    public void removeComment(PointEntity point) {
+        points.remove(point);
+        point.setOwner(null);
     }
 
     /*@Override

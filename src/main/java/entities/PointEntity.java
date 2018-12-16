@@ -1,11 +1,17 @@
 package entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "POINT")
-public class PointEntity {
+@NamedQuery(
+        name = "pointlist",
+        query = "SELECT p FROM PointEntity p WHERE p.owner = :creator ORDER BY p.creationDate DESC")
+public class PointEntity implements Serializable {
+
     @Id
     @Column(name = "x")
     private double x;
@@ -18,7 +24,7 @@ public class PointEntity {
     @Column(name = "r")
     private double r;
 
-    @Column(name = "in_range")
+    @Column(name = "inrange")
     private boolean inRange;
 
     @Id
@@ -83,5 +89,33 @@ public class PointEntity {
 
     public void setOwner(UserEntity owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PointEntity)) return false;
+        PointEntity that = (PointEntity) o;
+        return Double.compare(that.x, x) == 0 &&
+                Double.compare(that.y, y) == 0 &&
+                Double.compare(that.r, r) == 0 &&
+                inRange == that.inRange &&
+                creationDate.equals(that.creationDate) &&
+                owner.equals(that.owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, r, inRange, creationDate, owner);
+    }
+
+    @Override
+    public String toString() {
+        return "PointEntity{" +
+                "x=" + x +
+                ", y=" + y +
+                ", r=" + r +
+                ", inRange=" + inRange +
+                '}';
     }
 }

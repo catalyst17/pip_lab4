@@ -4,15 +4,23 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
 
-
+/*@Stateless*/
 public class GenericDao<T, PK extends Serializable> implements DaoInterface<T, PK> {
     private static final EntityManagerFactory ourFactory;
+    /*@PersistenceContext*/
+    /*private EntityManager entityManager;*/
+
     private Class<T> type;
+
+    public GenericDao() {
+    }
 
     static {
         java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.WARNING);
@@ -31,7 +39,7 @@ public class GenericDao<T, PK extends Serializable> implements DaoInterface<T, P
         ourFactory.close();
     }
 
-    protected static EntityManager getEntityManager() {
+    protected EntityManager getEntityManager() {
         return ourFactory.createEntityManager();
     }
 
