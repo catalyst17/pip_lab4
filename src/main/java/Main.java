@@ -8,7 +8,7 @@ public class Main {
         EntityManagerFactory sf = Persistence.createEntityManagerFactory("myUnit");
         EntityManager entityManager = sf.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.persist(new UserEntity("catalust15", "qwerty"));
+        entityManager.persist(new UserEntity("catalt15", "12345"));
         entityManager.getTransaction().commit();
 
         entityManager.getTransaction().begin();
