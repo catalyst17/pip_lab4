@@ -1,19 +1,23 @@
 package entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "USERS")
 public class UserEntity {
     private String login;
-    private String password;
+    private int password;
+
+    @OneToMany(mappedBy="owner")
+    private List<PointEntity> points;
 
     public UserEntity() {
     }
 
     public UserEntity(String login, String password) {
         this.login = login;
-        this.password = password;
+        this.password = password.hashCode();
     }
 
     @Id
@@ -28,15 +32,23 @@ public class UserEntity {
 
     @Basic
     @Column(name = "password", nullable = false, length = 40)
-    public String getPassword() {
+    public int getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password.hashCode();
     }
 
-    @Override
+    public void setPoints(List<PointEntity> points) {
+        this.points = points;
+    }
+
+    public List<PointEntity> getPoints() {
+        return points;
+    }
+
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -52,5 +64,5 @@ public class UserEntity {
         int result = login != null ? login.hashCode() : 0;
         result = 31 * result + (password != null ? password.hashCode() : 0);
         return result;
-    }
+    }*/
 }

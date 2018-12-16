@@ -10,6 +10,10 @@ public class Main {
         entityManager.getTransaction().begin();
         entityManager.persist(new UserEntity("catalust15", "qwerty"));
         entityManager.getTransaction().commit();
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(new UserEntity("catalust15", "qwerty"));
+        entityManager.getTransaction().commit();
         entityManager.close();
     }
 }
