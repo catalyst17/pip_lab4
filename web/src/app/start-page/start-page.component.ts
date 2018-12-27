@@ -1,55 +1,45 @@
-import { Component } from '@angular/core';
-
-/*class User{
-    login: string;
-    password: string;
-
-    constructor(login: string, password: string) {
-        this.login = login;
-        this.password = password;
-    }
-}*/
+import {Component, OnInit} from '@angular/core';
 
 @Component({
     selector: 'app-start-page',
     template: `
-    <div onload="startTime()">
-        <div id="txt">
-            <p id="time"></p>
+        <div onload="startTime()">
+            <div id="txt">
+                <p id="time"></p>
+            </div>
         </div>
-    </div>
+        <div class="page-header">
+            <h1> Вход в систему </h1>
+        </div>
 
-    <div class="page-header">
-        <h1> Вход в систему </h1>
-    </div>
-    
-    
-    <form (ngSubmit)="formSubmit()">
-        <div class="form-group">
-            <label for="login">Логин:</label>
-            <input type="text" id="login" class="form-control" [(ngModel)]="data.username">
-        </div>
-        <div class="form-group">
-            <label for="password">Пароль:</label>
-            <input type="password" id="password" class="form-control">
-        </div>
-        <button type="submit" class="btn-default btn">Войти</button>
-    </form>
-`
+
+        <form name="form" (ngSubmit)="formSubmit()" #f="ngForm">
+            <div class="form-group">
+                <label for="login">Логин:</label>
+                <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required/>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль:</label>
+                <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required/>
+            </div>
+            <button class="btn-default btn">Войти</button>
+        </form>
+    `
     // templateUrl: '/start-page.component.html'
 })
 
-export class StartPageComponent {
-    //model = new User(,);
-
-    data = {};
-    submitted = false;
+export class StartPageComponent implements OnInit {
+    model: any = {};
 
     constructor() {
     }
 
     ngOnInit() {
-        this.startTime();
+        //this.startTime();
+    }
+
+    formSubmit() {
+        alert(this.model.username + this.model.password);
     }
 
     async startTime() {
@@ -57,12 +47,4 @@ export class StartPageComponent {
         setTimeout(document.getElementById('time').innerText = today.getHours()
             + ':' + today.getMinutes() + ':' + today.getSeconds(), 1000);
     }
-
-    formSubmit() {
-        console.log(this.data);
-        this.submitted = true;
-    }
-
-    // TODO: Remove this when we're done
-    //get diagnostic() { return JSON.stringify(this.model); }
 }
